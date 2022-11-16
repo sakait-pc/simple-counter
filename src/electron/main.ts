@@ -8,6 +8,7 @@ import {
   ipcMain,
 } from "electron";
 import isDev from "electron-is-dev";
+import store from "./store";
 import { LOCAL_BASE_URL } from "./constants";
 
 const handleError = (title: string, e: unknown) => {
@@ -93,11 +94,26 @@ app.on("activate", () => {
   }
 });
 
+const getCounters = () => {
+  try {
+    const counters = store.get("counters");
+    if (!counters) throw new Error("The value 'counters' is undefined");
+    return counters;
+  } catch (e) {
+    throw e;
+  }
+};
+
 ipcMain.handle("HELLO", () => {
-  const options: Electron.MessageBoxOptions = {
-    type: "info",
-    title: "Hello",
-    message: 'Hello',
-  };
-  dialog.showMessageBoxSync(options);
+  try {
+    const counters = getCounters();
+    const options: Electron.MessageBoxOptions = {
+      type: "info",
+      title: "Hello",
+      message: counters[0]?.name,
+    };
+    dialog.showMessageBoxSync(options);
+  } catch (e) {
+    handleError("Failed to hello.", e);
+  }
 });
