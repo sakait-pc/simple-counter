@@ -22,17 +22,18 @@ const App = () => {
 
   return (
     <div className="App">
-        <h1 className="hello">Simple Counter</h1>
-        <div className="counters">
-          {exists && $counters.map((counter) =>
+      <h1 className="hello">Simple Counter</h1>
+      <div className="counters">
+        {exists &&
+          $counters.map(counter => (
             <div className="counter">
               <span>{counter.name}</span>
               <span>{counter.count}</span>
               <span>{counter.lastUpdate}</span>
               {/* <button onClick={increment} style={{marginLeft: '8px'}}>+1</button> */}
             </div>
-          )}
-        </div>
+          ))}
+      </div>
     </div>
   );
 };

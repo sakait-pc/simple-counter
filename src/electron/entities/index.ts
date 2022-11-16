@@ -4,5 +4,5 @@ export interface Counter {
   lastUpdate: string;
 }
 export type StoreType = {
-  counters: Counter[] | undefined,
-}
+  counters: Counter[] | undefined;
+};

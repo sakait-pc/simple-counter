@@ -5,7 +5,7 @@ import type { StoreType } from "../entities";
 const createStore = () => {
   return isDev
     ? new ElectronStore<StoreType>()
-    : new ElectronStore<StoreType>({name: "config-prod"});
+    : new ElectronStore<StoreType>({ name: "config-prod" });
 };
 
 const store = createStore();

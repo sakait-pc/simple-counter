@@ -12,8 +12,7 @@ declare global {
 }
 
 const api: ElectronAPI = {
-  fetchCounters: () =>
-    ipcRenderer.invoke("FETCH_COUNTERS"),
+  fetchCounters: () => ipcRenderer.invoke("FETCH_COUNTERS"),
 };
 
 contextBridge.exposeInMainWorld("electron", api);
