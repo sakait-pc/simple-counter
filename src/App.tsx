@@ -12,9 +12,8 @@ const handleError = (title: string, e: unknown) => {
 };
 
 const App = () => {
-  const { fetchCounters, createCounter } = window.electron;
+  const { fetchCounters, createCounter, incrementCounter } = window.electron;
 
-  // const [count, setCount] = useState(0);
   const [$counterName, setCounterName] = useState("");
   const [$counters, setCounters] = useState<Counter[]>([]);
 
@@ -30,7 +29,14 @@ const App = () => {
     fetcher();
   }, []);
 
-  // const increment = () => setCount((count) => count + 1);
+  const increment = async (index: number) => {
+    try {
+      const counters = await incrementCounter(index);
+      setCounters(counters);
+    } catch (e) {
+      handleError("Failed to increment", e);
+    }
+  };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCounterName(e.target.value);
@@ -73,7 +79,7 @@ const App = () => {
                 <span className="count">{counter.count}</span>
               </div>
               <div className="increment-wrap">
-                <button onClick={() => console.log("increment")}>+</button>
+                <button onClick={() => increment(index)}>+</button>
               </div>
             </div>
           ))}

@@ -151,3 +151,23 @@ ipcMain.handle("CREATE_COUNTER", (_, name: string) => {
     handleError("Failed to create a counter.", e);
   }
 });
+
+ipcMain.handle("INCREMENT_COUNTER", (_, index: number) => {
+  try {
+    const current = getCounters();
+    const counters = current.map((counter, idx) => {
+      if (idx === index) {
+        return {
+          ...counter,
+          count: counter.count + 1,
+          lastUpdate: getLastUpdate(),
+        };
+      }
+      return counter;
+    });
+    store.set("counters", counters);
+    return counters;
+  } catch (e) {
+    handleError("Failed to increment a counter.", e);
+  }
+});
