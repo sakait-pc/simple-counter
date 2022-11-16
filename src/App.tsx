@@ -26,7 +26,7 @@ const App = () => {
       <div className="counters">
         {exists &&
           $counters.map(counter => (
-            <div className="counter">
+            <div className="counter" key={counter.name}>
               <span>{counter.name}</span>
               <span>{counter.count}</span>
               <span>{counter.lastUpdate}</span>
