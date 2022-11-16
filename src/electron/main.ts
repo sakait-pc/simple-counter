@@ -104,15 +104,10 @@ const getCounters = () => {
   }
 };
 
-ipcMain.handle("HELLO", () => {
+ipcMain.handle("FETCH_COUNTERS", () => {
   try {
     const counters = getCounters();
-    const options: Electron.MessageBoxOptions = {
-      type: "info",
-      title: "Hello",
-      message: counters[0]?.name,
-    };
-    dialog.showMessageBoxSync(options);
+    return counters;
   } catch (e) {
     handleError("Failed to hello.", e);
   }

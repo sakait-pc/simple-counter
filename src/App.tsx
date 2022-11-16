@@ -1,21 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import type { Counter } from "./electron/entities";
 import "./App.css";
 
 const App = () => {
-  const { hello } = window.electron;
+  const { fetchCounters } = window.electron;
 
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
+  const [$counters, setCounters] = useState<Counter[]>([]);
 
-  const increment = () => setCount((count) => count + 1);
+  useEffect(() => {
+    const fetcher = async () => {
+      const counters = await fetchCounters();
+      setCounters(counters);
+    };
+    fetcher();
+  }, []);
+
+  // const increment = () => setCount((count) => count + 1);
+
+  const exists = 0 < $counters.length;
 
   return (
     <div className="App">
         <h1 className="hello">Simple Counter</h1>
-        <div className="counter">
-          <span>{count}</span>
-          <button onClick={increment} style={{marginLeft: '8px'}}>+1</button>
+        <div className="counters">
+          {exists && $counters.map((counter) =>
+            <div className="counter">
+              <span>{counter.name}</span>
+              <span>{counter.count}</span>
+              <span>{counter.lastUpdate}</span>
+              {/* <button onClick={increment} style={{marginLeft: '8px'}}>+1</button> */}
+            </div>
+          )}
         </div>
-        <button onClick={hello}>Hello</button>
     </div>
   );
 };

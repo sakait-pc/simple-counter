@@ -1,7 +1,8 @@
 import { ipcRenderer, contextBridge } from "electron";
+import type { Counter } from "./entities";
 
 interface ElectronAPI {
-  hello: () => any;
+  fetchCounters: () => Promise<Counter[]>;
 }
 
 declare global {
@@ -11,8 +12,8 @@ declare global {
 }
 
 const api: ElectronAPI = {
-  hello: () =>
-    ipcRenderer.invoke("HELLO"),
+  fetchCounters: () =>
+    ipcRenderer.invoke("FETCH_COUNTERS"),
 };
 
 contextBridge.exposeInMainWorld("electron", api);
