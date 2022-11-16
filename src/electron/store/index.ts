@@ -1,14 +1,6 @@
 import isDev from "electron-is-dev";
 import ElectronStore from "electron-store";
-
-interface Counter {
-  name: string;
-  count: number;
-  lastUpdate: string;
-}
-type StoreType = {
-  counters: Counter[] | undefined,
-}
+import type { StoreType } from "../entities";
 
 const createStore = () => {
   return isDev
