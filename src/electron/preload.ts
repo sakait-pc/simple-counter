@@ -3,6 +3,7 @@ import type { Counter } from "./entities";
 
 interface ElectronAPI {
   fetchCounters: () => Promise<Counter[]>;
+  createCounter: (name: string) => Promise<Counter[]>;
 }
 
 declare global {
@@ -13,6 +14,7 @@ declare global {
 
 const api: ElectronAPI = {
   fetchCounters: () => ipcRenderer.invoke("FETCH_COUNTERS"),
+  createCounter: (name: string) => ipcRenderer.invoke("CREATE_COUNTER", name),
 };
 
 contextBridge.exposeInMainWorld("electron", api);

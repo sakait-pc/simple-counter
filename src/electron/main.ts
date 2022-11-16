@@ -8,6 +8,7 @@ import {
   ipcMain,
 } from "electron";
 import isDev from "electron-is-dev";
+import type { Counter } from "./entities";
 import store from "./store";
 import { LOCAL_BASE_URL } from "./constants";
 
@@ -109,6 +110,22 @@ ipcMain.handle("FETCH_COUNTERS", () => {
     const counters = getCounters();
     return counters;
   } catch (e) {
-    handleError("Failed to hello.", e);
+    handleError("Failed to fetch counters.", e);
+  }
+});
+
+ipcMain.handle("CREATE_COUNTER", (_, name: string) => {
+  const counter: Counter = {
+    name,
+    count: 0,
+    lastUpdate: "2022-11-16T21:07", // TODO:
+  };
+  try {
+    const current = getCounters();
+    const counters = [...current, counter];
+    store.set("counters", counters);
+    return counters;
+  } catch (e) {
+    handleError("Failed to create a counter.", e);
   }
 });
