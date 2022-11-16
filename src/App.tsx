@@ -51,8 +51,8 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1 className="hello">Simple Counter</h1>
-      <div>
+      <h1 className="title">Simple Counter</h1>
+      <div className="create">
         <input type="text" value={$counterName} onChange={onChange} />
         <button onClick={create}>create</button>
       </div>
@@ -60,10 +60,21 @@ const App = () => {
         {exists &&
           $counters.map((counter, index) => (
             <div className="counter" key={index}>
-              <span>{counter.name}</span>
-              <span>{counter.count}</span>
-              <span>{counter.lastUpdate}</span>
-              {/* <button onClick={increment} style={{marginLeft: '8px'}}>+1</button> */}
+              <div className="lock-wrap">
+                <input type="checkbox" name="hoge" id="hogeid" />
+              </div>
+              <div className="name-wrap">
+                <span className="name">{counter.name}</span>
+              </div>
+              <div className="last-update-wrap">
+                <span className="last-update">{counter.lastUpdate}</span>
+              </div>
+              <div className="count-wrap">
+                <span className="count">{counter.count}</span>
+              </div>
+              <div className="increment-wrap">
+                <button onClick={() => console.log("increment")}>+</button>
+              </div>
             </div>
           ))}
       </div>

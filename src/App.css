@@ -71,7 +71,39 @@ ul {
   flex-direction: column;
   align-items: center;
 }
-.hello {
-  margin: 64px 0px;
+.title {
+  margin: 32px 0px;
   font-size: 32px;
+}
+.create {
+  margin-bottom: 16px;
+}
+.counters {
+  padding: 8px 8px 0px 8px;
+}
+.counter {
+  display: flex;
+  margin-bottom: 8px;
+}
+.name-wrap {
+  width: 120px;
+  margin-left: 8px;
+}
+.name {
+  font-size: 18px;
+}
+.last-update-wrap {
+  margin-left: 8px;
+}
+.last-update {
+  font-size: 12px;
+}
+.count-wrap {
+  margin-left: 12px;
+}
+.count {
+  font-size: 18px;
+}
+.increment-wrap {
+  margin-left: 12px;
 }
