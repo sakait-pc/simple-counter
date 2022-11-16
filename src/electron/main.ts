@@ -105,6 +105,28 @@ const getCounters = () => {
   }
 };
 
+const formatDate = (dateString: string) => {
+  // dateString example: '2022/11/16 0:42:09'
+  const [date, time] = dateString.split(" ");
+  const [year, month, day] = date.split("/");
+  const doubleDigitsMonth = ("0" + month).slice(-2);
+  const doubleDigitsDay = ("0" + day).slice(-2);
+  const formattedDate = `${year}-${doubleDigitsMonth}-${doubleDigitsDay}`;
+
+  const [hour, doubleDigitsMinute] = time.split(":");
+  const doubleDigitsHour = ("0" + hour).slice(-2);
+  const formattedTime = `${doubleDigitsHour}:${doubleDigitsMinute}`;
+
+  return `${formattedDate} ${formattedTime}`;
+};
+
+const getLastUpdate = () => {
+  const dateString = new Date().toLocaleString("ja-JP", {
+    timeZone: "Asia/Tokyo",
+  });
+  return formatDate(dateString);
+};
+
 ipcMain.handle("FETCH_COUNTERS", () => {
   try {
     const counters = getCounters();
@@ -118,7 +140,7 @@ ipcMain.handle("CREATE_COUNTER", (_, name: string) => {
   const counter: Counter = {
     name,
     count: 0,
-    lastUpdate: "2022-11-16T21:07", // TODO:
+    lastUpdate: getLastUpdate(),
   };
   try {
     const current = getCounters();
