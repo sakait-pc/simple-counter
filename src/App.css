@@ -103,7 +103,10 @@ ul {
   font-size: 12px;
 }
 .count-wrap {
-  margin-left: 12px;
+  display: flex;
+  justify-content: flex-end;
+  width: 32px;
+  margin-left: 8px;
 }
 .count {
   font-size: 18px;
