@@ -12,7 +12,8 @@ const handleError = (title: string, e: unknown) => {
 };
 
 const App = () => {
-  const { fetchCounters, createCounter, incrementCounter } = window.electron;
+  const { fetchCounters, createCounter, incrementCounter, toggleLock } =
+    window.electron;
 
   const [$counterName, setCounterName] = useState("");
   const [$counters, setCounters] = useState<Counter[]>([]);
@@ -30,6 +31,8 @@ const App = () => {
   }, []);
 
   const increment = async (index: number) => {
+    const counter = $counters[index];
+    if (counter.isLocked) return;
     try {
       const counters = await incrementCounter(index);
       setCounters(counters);
@@ -53,6 +56,15 @@ const App = () => {
     }
   };
 
+  const toggle = async (index: number) => {
+    try {
+      const counters = await toggleLock(index);
+      setCounters(counters);
+    } catch (e) {
+      handleError("Failed to toggle lock", e);
+    }
+  };
+
   const exists = 0 < $counters.length;
 
   return (
@@ -67,7 +79,9 @@ const App = () => {
           $counters.map((counter, index) => (
             <div className="counter" key={index}>
               <div className="lock-wrap">
-                <input type="checkbox" name="hoge" id="hogeid" />
+                <button className="lock" onClick={() => toggle(index)}>
+                  🔒
+                </button>
               </div>
               <div className="name-wrap">
                 <span className="name">{counter.name}</span>
@@ -79,7 +93,13 @@ const App = () => {
                 <span className="count">{counter.count}</span>
               </div>
               <div className="increment-wrap">
-                <button onClick={() => increment(index)}>+</button>
+                <button
+                  className="increment"
+                  onClick={() => increment(index)}
+                  disabled={counter.isLocked}
+                >
+                  +
+                </button>
               </div>
             </div>
           ))}

@@ -5,6 +5,7 @@ interface ElectronAPI {
   fetchCounters: () => Promise<Counter[]>;
   createCounter: (name: string) => Promise<Counter[]>;
   incrementCounter: (index: number) => Promise<Counter[]>;
+  toggleLock: (index: number) => Promise<Counter[]>;
 }
 
 declare global {
@@ -18,6 +19,7 @@ const api: ElectronAPI = {
   createCounter: (name: string) => ipcRenderer.invoke("CREATE_COUNTER", name),
   incrementCounter: (index: number) =>
     ipcRenderer.invoke("INCREMENT_COUNTER", index),
+  toggleLock: (index: number) => ipcRenderer.invoke("TOGGLE_LOCK", index),
 };
 
 contextBridge.exposeInMainWorld("electron", api);

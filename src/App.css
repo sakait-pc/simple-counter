@@ -83,7 +83,11 @@ ul {
 }
 .counter {
   display: flex;
+  align-items: center;
   margin-bottom: 8px;
+}
+.lock {
+  font-size: 12px;
 }
 .name-wrap {
   width: 120px;
@@ -106,4 +110,7 @@ ul {
 }
 .increment-wrap {
   margin-left: 12px;
+}
+.increment {
+  font-size: 12px;
 }

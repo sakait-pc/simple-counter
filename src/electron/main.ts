@@ -10,7 +10,7 @@ import {
 import isDev from "electron-is-dev";
 import type { Counter } from "./entities";
 import store from "./store";
-import { LOCAL_BASE_URL } from "./constants";
+import { LOCAL_BASE_URL, BASE_COUNTER } from "./constants";
 
 const handleError = (title: string, e: unknown) => {
   if (e instanceof Error) {
@@ -138,8 +138,8 @@ ipcMain.handle("FETCH_COUNTERS", () => {
 
 ipcMain.handle("CREATE_COUNTER", (_, name: string) => {
   const counter: Counter = {
+    ...BASE_COUNTER,
     name,
-    count: 0,
     lastUpdate: getLastUpdate(),
   };
   try {
@@ -169,5 +169,25 @@ ipcMain.handle("INCREMENT_COUNTER", (_, index: number) => {
     return counters;
   } catch (e) {
     handleError("Failed to increment a counter.", e);
+  }
+});
+
+ipcMain.handle("TOGGLE_LOCK", (_, index: number) => {
+  try {
+    const current = getCounters();
+    const counters = current.map((counter, idx) => {
+      if (idx === index) {
+        return {
+          ...counter,
+          isLocked: !counter.isLocked,
+          lastUpdate: getLastUpdate(),
+        };
+      }
+      return counter;
+    });
+    store.set("counters", counters);
+    return counters;
+  } catch (e) {
+    handleError("Failed to toggle lock.", e);
   }
 });
