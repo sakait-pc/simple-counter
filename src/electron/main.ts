@@ -105,26 +105,20 @@ const getCounters = () => {
   }
 };
 
-const formatDate = (dateString: string) => {
-  // dateString example: '2022/11/16 0:42:09'
-  const [date, time] = dateString.split(" ");
-  const [year, month, day] = date.split("/");
-  const doubleDigitsMonth = ("0" + month).slice(-2);
-  const doubleDigitsDay = ("0" + day).slice(-2);
-  const formattedDate = `${year}-${doubleDigitsMonth}-${doubleDigitsDay}`;
-
-  const [hour, doubleDigitsMinute] = time.split(":");
-  const doubleDigitsHour = ("0" + hour).slice(-2);
-  const formattedTime = `${doubleDigitsHour}:${doubleDigitsMinute}`;
-
-  return `${formattedDate} ${formattedTime}`;
-};
-
 const getLastUpdate = () => {
   const dateString = new Date().toLocaleString("ja-JP", {
     timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
   });
-  return formatDate(dateString);
+  // dateString example: '2022/11/16 00:42:09'
+  const slicedSeconds = dateString.slice(0, -3);
+  const regExpSelectSlashes = /\//g;
+  return slicedSeconds.replace(regExpSelectSlashes, "-");
 };
 
 ipcMain.handle("FETCH_COUNTERS", () => {
